@@ -1,0 +1,68 @@
+import random as rand
+import copy
+
+karty = [2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10]
+
+deck = [2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10,2,3,4,5,6,7,8,9,10,10,10,10]
+
+player=[]
+dealer=[]
+
+e = 1
+p = 1
+
+while e == 1:
+    p1 = 1
+    p2 = 1
+    b1 = 0
+    b2 = 0
+    rand.shuffle(deck)
+    for i in range(2):
+        player.append(deck[0])
+        del deck[0]
+    for i in range(2):
+        dealer.append(deck[0])
+        del deck[0]
+    print("your hand:",player)
+    print("dealer's hand:",dealer)
+#loop to see if game should continue
+    while p1+p2 != 0:
+#to see if player stands
+        if p1==1:
+            ask = input("press s to stand or h to hit: ")
+            if ask == "s":
+                p1 = 0
+            if ask == "h":
+                player.append(deck[0])
+                del deck[0]
+            if sum(player)>21:
+                print("bust")
+                b1 = 1
+#to see if dealer stands
+        if p2==1:
+            if sum(dealer) < 17:
+                dealer.append(deck[0])
+                del deck[0]
+                print("dealer hits")
+            elif sum(dealer) > 16:
+                p2 = 0
+                print("dealer stands")
+            if sum(dealer)>21:
+                print("dealer bust")
+                b2 = 1
+        print(player)
+        print(dealer)
+    if b1==0 and b2==1:
+        print("ez win")
+    elif b1==1 and b2==0:
+        print("rip bozo")
+    elif sum(player)>sum(dealer):
+        print("ez win")
+    elif sum(dealer)>sum(player):
+        print("rip bozo")
+    elif sum(player) == sum(dealer):
+        print("draw")
+    else:
+        print("both bust")
+    e = 0
+#deck = copy.deepcopy(karty)
