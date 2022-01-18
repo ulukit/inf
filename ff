@@ -1,0 +1,123 @@
+import random as rand
+import copy
+
+karty = [2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A']
+
+deck = [2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A',2,3,4,5,6,7,8,9,10,10,10,10,'A']
+
+player=[]
+dealer=[]
+
+e = 1
+p = 1
+
+peniaze = 200
+
+while e == 1:
+    p1 = 1
+    p2 = 1
+    b1 = 0
+    b2 = 0
+    rand.shuffle(deck)
+    print("money:", peniaze, "€")
+    bet = int(input("how much do you bet?: "))
+    peniaze = peniaze - bet
+    win = bet * 1.5
+    for i in range(2):
+        player.append(deck[0])
+        del deck[0]
+        if 'A' in player:
+            A = int(input("11 or 1: "))
+            player.append(A)
+            player.remove('A')
+    for i in range(2):
+        dealer.append(deck[0])
+        del deck[0]
+        if 'A' in dealer:
+            dealer.remove('A')
+            if sum(dealer) + 11 < 22:
+                dealer.append(11)
+            else:
+                dealer.append(1)
+
+
+    print("your hand:",player)
+    print("dealer's hand:",dealer)
+#loop to see if game should continue
+    while p1+p2 != 0:
+#to see if player stands
+        if p1==1:
+            ask = input("press s to stand or h to hit: ")
+            if ask == "s":
+                p1 = 0
+            if ask == "h":
+                player.append(deck[0])
+                del deck[0]
+                if 'A' in player:
+                    A = int(input("11 or 1: "))
+                    player.append(A)
+                    player.remove('A')
+            if sum(player)>21:
+                print("bust")
+                p1 = 0
+                b1 = 1
+#to see if dealer stands
+        if p2==1:
+            if sum(dealer) < 17:
+                dealer.append(deck[0])
+                del deck[0]
+                if 'A' in dealer:
+                    dealer.remove('A')
+                    if sum(dealer) + 11 < 22:
+                        dealer.append(11)
+                    else:
+                        dealer.append(1)
+                print("dealer hits")
+            elif sum(dealer) > 16:
+                p2 = 0
+                print("dealer stands")
+            if sum(dealer)>21:
+                print("dealer bust")
+                p2 = 0
+                b2 = 1
+        print(player)
+        print(dealer)
+    if b1==1 and b2==1:
+        print("draw")
+        peniaze = peniaze + bet
+    elif b1==0 and b2==1:
+        print("ez win")
+        peniaze = peniaze + win
+    elif b1==1 and b2==0:
+        print("rip bozo")
+    elif sum(player)>sum(dealer):
+        print("ez win")
+        peniaze = peniaze + win
+    elif sum(dealer)>sum(player):
+        print("rip bozo")
+    elif sum(player) == sum(dealer):
+        print("draw")
+        peniaze = peniaze + bet
+    else:
+        print("both bust")
+
+    print("money: ", peniaze, "€")
+    if peniaze <= 50:
+        print("zamn")
+        e = 0
+    elif peniaze >= 1000:
+        print("ok vyhral si")
+    else:
+        input("press a key when ready")
+        player.clear()
+        dealer.clear()
+        deck = copy.deepcopy(karty)
+
+#    replay = input("play again? y/n: ")
+#   if replay == "n":
+#        print("ok bozo")
+#        e = 0
+#    elif replay == "y":
+#        player.clear()
+#        dealer.clear()
+#        deck = copy.deepcopy(karty)
