@@ -1,28 +1,31 @@
 import random as rand
-
-statistics_sum={
- "1": 0,
- "2": 0,
- "3": 0,
- "4": 0,
- "5": 0,
- "6": 0,
-}
-
-sum_dice = 0
+win_score = int(input("Points to win: "))
+p_score = 0
+c_score = 0
+counter = 0
+rps = ["r", "p", "s"]
 history = []
-
-while sum_dice < 1000:
-    sum_dice = statistics_sum["1"] + statistics_sum["2"] * 2 + statistics_sum["3"] * 3 \
-          + statistics_sum["4"] * 4 + statistics_sum["5"] * 5 + statistics_sum["6"] * 6
-    throw = rand.randint(1, 6)
-    history.append(throw)
-    statistics_sum[str(throw)] += 1
-
-print(statistics_sum)
-print("Most common throw: " + max(statistics_sum, key=statistics_sum.get))
+rules = {
+    "p": "r",
+    "r": "s",
+    "s": "p"
+}
+while p_score<win_score and c_score < win_score:
+    counter += 1
+    player = str(input("r,p,s: "))
+    cpu = rand.choice(rps)
+    history.append(str(counter) + ".turn: " + player + "," + cpu)
+    if player == rules[cpu]:
+        c_score += 1
+        print("CPU scores \n score: " + str(p_score) + ", " + str(c_score))
+    elif cpu == rules[player]:
+        p_score += 1
+        print("Player scores \n score: " + str(p_score) + ", " + str(c_score))
+    else:
+        print("tie \n score: " + str(p_score) + ", " + str(c_score))
+    print(history)
+if p_score > c_score:
+    print("Player wins \n score: " + str(p_score) + ", " + str(c_score))
+else:
+    print("CPU wins \n score: " + str(p_score) + ", " + str(c_score))
 print(history)
-print(sum(history)/len(history))
-print("sum of 1's: " + str(statistics_sum["1"]) + "\n" + "sum of 2's: " + str(statistics_sum["2"]*2) + "\n" +\
-      "sum of 3's: " + str(statistics_sum["3"]*3) + "\n" + "sum of 4's: " + str(statistics_sum["4"]*4) + "\n" +\
-      "sum of 5's: " + str(statistics_sum["5"]*5) + "\n" + "sum of 6's: " + str(statistics_sum["6"]*6) + "\n")
