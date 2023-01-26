@@ -1,0 +1,57 @@
+import re
+
+#returns a list of all lines containing the searched term 'string'
+def file_search(file,string):
+    results = []
+    line_num = 0
+    with open(file) as read_obj:
+        for line in read_obj:
+            line_num += 1
+            if string in line:
+                results.append(line.rstrip())
+    return results
+
+#finds the value of the highest volume, exists in case there is a number in the name that is larger than any other value
+def max_extract(file):
+    with open(file) as read_obj:
+        text = read_obj.read()
+        volumes = ''.join(re.findall('volume:[0-9]+',text))
+        numbers = map(int,re.findall('[0-9]+',volumes))
+    return max(numbers)
+
+while True:
+    file = open('evidence.txt', 'a+')
+    mode = int(input('1, create\n2, search\n3, close: '))
+    #appends a line containing new info into the text file
+    if mode == 1:
+        name = str(input('set name: '))
+        width = int(input('set width in m: '))
+        length = int(input('set length in m: '))
+        depth = int(input('set lenght in m: '))
+        volume = width*length*depth
+        color = str(input('set color: '))
+        file.write('name:'+name+' width:'+str(width)+' lenght:'+str(length)+' depth:'+str(depth)+' volume:'+str(volume)+' color:'+color+'\n')
+        file.close()
+    #prints result based on what the user chose to searched for
+    elif mode == 2:
+        sr_mode = int(input('\n1, largest pool\n2, based on name\n3, based on depth: '))
+        if sr_mode == 1:
+            print('')
+            print(''.join(file_search('evidence.txt','volume:'+str(max_extract('evidence.txt')))))
+            print('')
+        elif sr_mode == 2:
+            sr_name = str(input('search name: '))
+            print('')
+            for line in file_search('evidence.txt','name:'+sr_name):
+                print(line)
+            print('')
+        else:
+            sr_depth = str(input('search depth: '))
+            print('')
+            for line in file_search('evidence.txt','depth:'+sr_depth):
+                print(line)
+            print('')
+        file.close()
+    #closes the program
+    else:
+        break
