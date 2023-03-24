@@ -1,0 +1,46 @@
+import random as rand
+import tkinter as tk
+
+Jano = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]]
+Miska = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]]
+free = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]]
+
+J_count = rand.randint(25, 35)
+M_count = rand.randint(10, 20)
+
+while J_count > 0:
+    x, y = rand.randint(0, 4), rand.randint(0, 6)
+    if Jano[x][y] == 0:
+        Jano[x][y] = 1
+        J_count -= 1
+
+while M_count > 0:
+    x, y = rand.randint(0, 4), rand.randint(0, 6)
+    if Miska[x][y] == 0:
+        Miska[x][y] = 1
+        M_count -= 1
+days = {
+    0: 'Pondelok',
+    1: 'Utorok',
+    2: 'Streda',
+    3: 'Stvrtok',
+    4: 'Piatok'
+}
+
+for a in range(5):
+    for b in range(7):
+        if Jano[a][b] == 0 and Miska[a][b] == 0:
+            free[a][b] = 1
+            print(days[a] + ' ' + str(b+1) + '.')
+
+window = tk.Tk()
+canvas = tk.Canvas(width = 1000, height = 400)
+
+for a in range(2):
+    for b in range(9):
+        canvas.create_line(a*500+(b+1)*50, 50, a*500+(b+1)*50, 350, width=2)
+    for b in range(7):
+        canvas.create_line(50+a*500, 50*(b+1), 450+a*500, 50*(b+1), width=2)
+
+canvas.pack()
+window.mainloop()
