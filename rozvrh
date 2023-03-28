@@ -20,11 +20,11 @@ while M_count > 0:
         Miska[x][y] = 1
         M_count -= 1
 days = {
-    0: 'Pondelok',
-    1: 'Utorok',
-    2: 'Streda',
-    3: 'Stvrtok',
-    4: 'Piatok'
+    0: 'Pon',
+    1: 'Uto',
+    2: 'Str',
+    3: 'Stv',
+    4: 'Pia'
 }
 
 for a in range(5):
@@ -37,9 +37,20 @@ window = tk.Tk()
 canvas = tk.Canvas(width = 1000, height = 400)
 
 for a in range(2):
+    for b in range(5):
+        for c in range(7):
+            if Jano[b][c] == 1 and a == 0:
+                canvas.create_rectangle(a*500+100+c*50, 100+50*b, a*500+150+c*50, 150+50*b, fill='green')
+            if Miska[b][c] == 1 and a == 1:
+                canvas.create_rectangle(a*500+100+c*50, 100+50*b, a*500+150+c*50, 150+50*b, fill='green')
+            if Jano[b][c] == 0 and Miska[b][c] == 0:
+                canvas.create_rectangle(a*500+100+c*50,100+50*b,a*500+150+c*50,150+50*b, fill='orange')
+    for b in range(5):
+        canvas.create_text(a*500+75, 125+50*b, text=days[b], font=('Times New Roman',17,'bold'))
     for b in range(9):
         canvas.create_line(a*500+(b+1)*50, 50, a*500+(b+1)*50, 350, width=2)
     for b in range(7):
+        canvas.create_text(a*500+125+b*50, 75, text = (b+1), font=('Times New Roman',17,'bold'))
         canvas.create_line(50+a*500, 50*(b+1), 450+a*500, 50*(b+1), width=2)
 
 canvas.pack()
